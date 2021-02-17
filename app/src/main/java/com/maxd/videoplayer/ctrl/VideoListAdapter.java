@@ -85,7 +85,7 @@ public class VideoListAdapter extends BaseAdapter {
             holder.video_name.setText(videoInfo.getTitle());
             holder.video_duration.setText(videoInfo.getStrDuration());
 
-            if( ! holder.video_thumb.getTag().equals(videoInfo.getData())){
+            if( ! videoInfo.getData().equals(holder.video_thumb.getTag())){
                 holder.video_thumb.setImageResource(R.mipmap.ic_launcher);
             }
             new LoadVideoThumbThread(videoInfo.getData(),holder.video_thumb).start();
@@ -137,9 +137,13 @@ public class VideoListAdapter extends BaseAdapter {
             //获取缩略图成功
             if(bitmap != null) {
                 //发送消息到主线程 更新缩略图
+                //if(videoPath.equals(imageView.getTag())){
+                //    return;
+                //}
                 VideoMsgData msgData = new VideoMsgData();
                 msgData.bitmap = bitmap;
                 msgData.imageView = imageView;
+                msgData.videoPath = videoPath;
                 Message msg = mVideoAdapterHandler.obtainMessage(MSG_VIDEOTHUMB_UPDATE, msgData);
                 mVideoAdapterHandler.sendMessage(msg);
             }
@@ -147,6 +151,7 @@ public class VideoListAdapter extends BaseAdapter {
     }
 
     public final class VideoMsgData{
+        public String videoPath;
         public ImageView imageView;
         public Bitmap bitmap;
     }

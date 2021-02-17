@@ -4,12 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
         android:background="@color/colorVideoBar" >
-    </LinearLayout>
+        <Button
+            android:id="@+id/vp_back_btn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_baseline_arrow_back_24"/>
+
+        <TextView
+            android:id="@+id/vp_video_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="192dp"
+            android:singleLine="true"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,5 +32,36 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorVideoBar">
 
+        <Button
+            android:id="@+id/vp_play_btn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/ic_baseline_pause_24"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/vp_next_btn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/ic_baseline_skip_next_24"
+            android:layout_gravity="center"/>
+        <SeekBar
+            android:id="@+id/vp_progress_seekbar"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/vp_duration_txt"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <Button
+            android:id="@+id/vp_full_btn"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_baseline_fullscreen_24"/>
     </LinearLayout>
 </RelativeLayout>

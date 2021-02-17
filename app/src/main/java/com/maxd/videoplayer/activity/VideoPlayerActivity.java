@@ -8,15 +8,18 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.maxd.videoplayer.R;
+import com.maxd.videoplayer.modle.VideoList;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -28,6 +31,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private SurfaceHolder mSurfaceHolder = null;
     private MediaPlayer mMediaPlayer = null;
     private View mVideoCtrl = null;
+    private VideoList mVideoList = VideoList.getInstance();
 
     AudioManager mAudioManager = null;
     AudioManager.OnAudioFocusChangeListener mAudioFocuseChangeListener = null;
@@ -53,11 +57,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
         mVideoCtrl = findViewById(R.id.vp_ctrl);
 
         initVideoView();
+
         Intent intent = getIntent();
-        if(intent != null ){
-            String path = intent.getStringExtra("video_path");
-            if( path != null) {
-                playByPath(path);
+
+        int playIndex = mVideoList.getPlayIndex();
+        if(playIndex != -1){
+            if(mVideoList.getVideoInfo(playIndex) != null){
+                playByPath(mVideoList.getVideoInfo(playIndex).getData());
             }
         }
     }
@@ -66,13 +72,14 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         @Override
         public void onCompletion(MediaPlayer mp) {
-
+            Toast.makeText( VideoPlayerActivity.this,"play completion ",Toast.LENGTH_SHORT).show();
         }
     }
 
     private class VideoOnErrorListener implements MediaPlayer.OnErrorListener{
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            Toast.makeText( VideoPlayerActivity.this,"play error ",Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -81,24 +88,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
         @Override
         public void onPrepared(MediaPlayer mp) {
             mVideoView.start();
-        }
-    }
-
-    private class VideoViewCallBack implements SurfaceHolder.Callback{
-
-        @Override
-        public void surfaceCreated(@NonNull SurfaceHolder holder) {
-
-        }
-
-        @Override
-        public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-
-        }
-
-        @Override
-        public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
         }
     }
 
